@@ -4,25 +4,18 @@ A Websocket, EventSource, and Long-Polling wrapper for [Nchan](https://nchan.sla
 
 ```js
 // CommonJS
-let NchanSubscriber = require("nchan");
 
-// you can also include the NchanSubscriber.js script directly in the browser.
-// This will export NchanSubscriber as a global variable.
-
-var sub = new NchanSubscriber(url, opt);
+import NchanSubscriber from 'react-native-nchan'
 
 //options
-opt = {
+let opt = {
   subscriber: 'longpoll', 'eventsource', or 'websocket',
     //or an array of the above indicating subscriber type preference
-  reconnect: undefined or 'session' or 'persist'
-    //if the HTML5 sessionStore or localStore should be used to resume
-    //connections interrupted by a page load
-  shared: true or undefined
-    //share connection to same subscriber url between browser windows and tabs 
-    //using localStorage.
+  reconnect: undefined,
+  shared: undefined
 }
 
+const sub = new NchanSubscriber(url, opt);
 
 sub.on("message", function(message, message_metadata) {
   // message is a string
@@ -30,17 +23,17 @@ sub.on("message", function(message, message_metadata) {
 });
 
 sub.on('connect', function(evt) {
-  //fired when first connected. 
+  //fired when first connected.
 });
 
 sub.on('disconnect', function(evt) {
   // when disconnected.
 });
- 
+
 sub.on('error', function(error_code or evt, error_description) {
   //error callback
 });
- 
+
 sub.reconnect; // should subscriber try to reconnect? true by default.
 sub.reconnectTimeout; //how long to wait to reconnect? does not apply to EventSource, which reconnects on its own.
 sub.lastMessageId; //last message id. useful for resuming a connection without loss or repetition.
